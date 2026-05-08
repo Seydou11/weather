@@ -36,7 +36,7 @@ function App() {
         setErrorInfo(error.message);
       });
   }, []);
-
+  // The loader will be shown when both weatherData and errorInfo are null.
   return (
     <main>
       <div
@@ -48,7 +48,10 @@ function App() {
         <>
           <p className="city-name">{weatherData?.city}</p>
           <p className="country-name">{weatherData?.country}</p>
-          <p className="temperature">{weatherData?.temperature}{"\u00b0C"}</p>
+          <p className="temperature">
+            {weatherData?.temperature}
+            {"\u00b0C"}
+          </p>
           <div className="info-icon-container">
             <img
               src={`${import.meta.env.BASE_URL}icons/${weatherData?.weatherIcon}.svg`}
