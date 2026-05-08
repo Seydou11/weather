@@ -9,7 +9,12 @@ function App() {
   const [errorInfo, setErrorInfo] = useState(null);
 
   useEffect(() => {
-    fetch(`http://api.airvisual.com/v2/nearest_city?key=${API_KEY}`)
+    if (!API_KEY) {
+      setErrorInfo("Missing weather API key.");
+      return;
+    }
+
+    fetch(`https://api.airvisual.com/v2/nearest_city?key=${API_KEY}`)
       .then((response) => {
         // 400-499: error from the client,
         // 500-599: error from the server
@@ -25,7 +30,6 @@ function App() {
           temperature: data.data.current.weather.tp,
           weatherIcon: data.data.current.weather.ic,
         });
-        console.log(data);
       })
       .catch((error) => {
         console.error("Error fetching weather data:", error);
@@ -44,10 +48,10 @@ function App() {
         <>
           <p className="city-name">{weatherData?.city}</p>
           <p className="country-name">{weatherData?.country}</p>
-          <p className="temperature">{weatherData?.temperature}</p>
+          <p className="temperature">{weatherData?.temperature}{"\u00b0C"}</p>
           <div className="info-icon-container">
             <img
-              src={`/icons/${weatherData?.weatherIcon}.svg`}
+              src={`${import.meta.env.BASE_URL}icons/${weatherData?.weatherIcon}.svg`}
               className="info-icon"
               alt="weather icon"
             />
